@@ -28,10 +28,10 @@ if r >= 2:
 startIndex = 0
 
 while True:
-    match = re.match(fraction, mainLine[startIndex:])
+    match = re.search(fraction, mainLine[startIndex:])
     if match is None:
         break
-    startIndex = match.end()
+    startIndex = match.end() + 1
     newFrac = '(' + topLine[match.start():match.end()] + ')' + '/' + '(' + bottomLine[match.start():match.end()] + ')'
     newMainLine = newMainLine[:match.start()] + newFrac + newMainLine[match.end():]
 
