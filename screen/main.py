@@ -1,16 +1,38 @@
-# This is a sample Python script.
+import re
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+r, c = map(int, input().split())
 
+if r == 1:
+    mainLine = input()
+elif r == 2:
+    topLine = input()
+    mainLine = input()
+elif r == 3:
+    topLine = input()
+    mainLine = input()
+    bottomLine = input()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+newMainLine = mainLine
 
+squareRootRanges = []
+fractionRanges = []
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+fraction = re.compile("=+")
+squareRootStart = re.compile(r"\\/")
+squareRootBody = re.compile("_+")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if r >= 2:
+    for match in re.finditer(squareRootBody, topLine):
+        squareRootRanges.append((match.start(), match.end()))
+
+startIndex = 0
+
+while True:
+    match = re.match(fraction, mainLine[startIndex:])
+    if match is None:
+        break
+    startIndex = match.end()
+    newFrac = '(' + topLine[match.start():match.end()] + ')' + '/' + '(' + bottomLine[match.start():match.end()] + ')'
+    newMainLine = newMainLine[:match.start()] + newFrac + newMainLine[match.end():]
+
+print(newMainLine)
